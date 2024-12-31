@@ -1,0 +1,21 @@
+{
+  "name": "evil-tool",
+  "version": "0.0.1",
+  "description": "some common functions，and some inject function to js data type prototype",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"rollup -c"
+  },
+  "keywords": [],
+  "author": "dbf",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.29.1"
+  }
+}
