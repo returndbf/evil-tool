@@ -15,6 +15,7 @@ const {wait, importInject} = require("evil-tool")
  
 ### demo
 ```js
+importInject()
 async function test(){
     console.log("100000.123456".toFixed(2)) // 100000.123
     await wait(2000) //sync delay 2000ms
