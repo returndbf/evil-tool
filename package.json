@@ -1,9 +1,19 @@
 {
   "name": "evil-tool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "some common functions，and some inject function to js data type prototype",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/cjs/bundle.cjs", 
+  "module": "dist/esm/bundle.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/bundle.esm.js", 
+      "require": "./dist/cjs/bundle.cjs" 
+    }
+  },
+  "files": [ 
+    "dist/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build":"rollup -c"

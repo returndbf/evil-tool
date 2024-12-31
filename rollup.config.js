@@ -7,13 +7,13 @@ export default {
     input: 'index.js', // 输入文件路径
     output: [
         {
-            file: 'dist/bundle.cjs', // 输出为 CommonJS 模块
+            file: 'dist/cjs/bundle.cjs', // 输出为 CommonJS 模块
             format: 'cjs',
             sourcemap: true,
             inlineDynamicImports:true
         },
         {
-            file: 'dist/bundle.esm.js', // 输出为 ES 模块
+            file: 'dist/esm/bundle.esm.js', // 输出为 ES 模块
             format: 'es',
             sourcemap: true,
             inlineDynamicImports:true
