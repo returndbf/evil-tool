@@ -1,5 +1,4 @@
-import {getEnv, throwNotInBrowserErrInfo} from "./utils.js";
-import {BROWSER, NODE} from "../constant/index.js";
+import {throwNotInBrowserErrInfo} from "./utils.js";
 
 export function urlSearch(url = undefined) {
     let innerUrl = ""

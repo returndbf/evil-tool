@@ -19,3 +19,6 @@ export function throwNotInBrowserErrInfo(operate = true, message = "") {
         throw new Error(message || `u idiot!u aren't in browser!!!`);
     }
 }
+export function getType(value) {
+    return Object.prototype.toString.call(value).slice(8, -1);
+}

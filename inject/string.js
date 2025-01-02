@@ -1,4 +1,4 @@
-import { injectCommon,parseStr2Number } from "./utils";
+import { injectCommon,parseStr2Number } from "./utils.js";
 // toFixed 保留小数
 injectCommon(String,'toFixed',function(digits = 2){
     return parseStr2Number(this.valueOf()).toFixed(digits)
