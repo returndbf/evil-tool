@@ -1,5 +1,5 @@
 # evil-tool
-some common functions，and some inject function to js data type prototype
+some common functions，and some inject functions to js data type prototype
 
 ## Usage
 
