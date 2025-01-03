@@ -1,29 +1,33 @@
 import {throwNotInBrowserErrInfo} from "./utils.js";
 
-export function urlSearch(url = undefined) {
-    let innerUrl = ""
-    let instance = null
-
-    throwNotInBrowserErrInfo(!url, `give me url,u idiot!u aren't in browser!!!`)
-    innerUrl = url || window.location.href
-    instance = new URLSearchParams("?" + innerUrl.split('?')[1])
-    return {
-        getProperty(key) {
-            return instance.get(key)
-        },
-        getAllProperty() {
-            const properties = {}
-            for (const [key, value] of instance.entries()) {
-                properties[key] = value
-            }
-            return properties
-        },
-        instance
-    }
-}
 
 
-export function editDocument() {
+
+export const  editDocument = () => {
     throwNotInBrowserErrInfo()
     document.body.contentEditable = 'true'
 }
+
+const prettyLog = () => {
+    throwNotInBrowserErrInfo()
+    const isEmpty = (value) => {
+        return value == null || value === undefined || value === '';
+    };
+    const prettyPrint = (title, text, color) => {
+        console.log(
+            `%c ${title} %c ${text} %c`,
+            `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+            `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
+            'background:transparent'
+        );
+    };
+    // 基础信息打印
+    const info = (textOrTitle, content = '') => {
+        const title = isEmpty(content) ? 'Info' : textOrTitle;
+        const text = isEmpty(content) ? textOrTitle : content;
+        prettyPrint(title, text, '#909399');
+    };
+    return {
+        info
+    };
+};
