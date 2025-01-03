@@ -29,24 +29,19 @@ injectCommon(Array, 'getUniqueArr', function (key) {
             }
             if (arrayType === 'Object') {
                 const newSet = new Set();
-                if (key) {
-                    return thisValue.filter(item => {
-                        if (newSet.has(item[key])) {
-                            return false;
-                        }
-                        newSet.add(item[key]);
-                        return true;
-                    });
-                } else {
-                    return thisValue.filter(item => {
-                        const key = JSON.stringify(item);
-                        if (newSet.has(key)) {
-                            return false;
-                        }
-                        newSet.add(key);
-                        return true;
-                    });
-                }
+
+                const generateKey = key ? item => item[key] : item => JSON.stringify(item);
+                return thisValue.filter(item => {
+                    const uniqueKey = generateKey(item);
+                    if (uniqueKey === undefined || uniqueKey === null) {
+                        return false;
+                    }
+                    if (newSet.has(uniqueKey)) {
+                        return false;
+                    }
+                    newSet.add(uniqueKey);
+                    return true;
+                });
             }
             else{
                 throw new Error(`Just support number | string | simple object array,u idiot!!!`);
