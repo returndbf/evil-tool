@@ -42,12 +42,28 @@ injectCommon(Array, 'getUniqueArr', function (key) {
                     newSet.add(uniqueKey);
                     return true;
                 });
-            }
-            else{
+            } else {
                 throw new Error(`Just support number | string | simple object array,u idiot!!!`);
             }
         }
     }
 })
+// flat array to tree 扁平数组转为树结构
+injectCommon(Array, 'getTree', function (key = 'id', parentKey = 'parentId', childrenKey = 'children') {
+    const thisValue = this.valueOf()
+    const map = new Map(thisValue.map(item => [item[key], item]));
+    return thisValue.reduce((resultArray, item) => {
+        // 找到父元素
+        const parent = map.get(item[parentKey]);
+        if (parent) {
+            // 如果父元素存在，将当前元素添加到父元素的 children 数组中
+            (parent[childrenKey] || (parent[childrenKey] = [])).push(item);
+        } else {
+            // 否则，当前元素就是根节点
+            resultArray.push(item);
+        }
+        return resultArray;
+    }, []);
 
+})
 
