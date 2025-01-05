@@ -1,4 +1,4 @@
-import {BROWSER, NODE} from "../constant/index.js";
+import {BROWSER, NODE,WINOS,MACOS,OTHEROS} from "../constant/index.js";
 
 export function getEnv() {
     if (typeof window !== 'undefined') {
@@ -6,6 +6,12 @@ export function getEnv() {
     } else {
         return NODE
     }
+}
+export function getOS(){
+    const userAgent = window.navigator.userAgent;
+    if(userAgent.includes(WINOS)) return WINOS
+    if(userAgent.includes(MACOS)) return MACOS
+    return OTHEROS
 }
 
 export function throwNotInNodeErrInfo(operate = true, message = "") {

@@ -1,14 +1,13 @@
-import {throwNotInBrowserErrInfo} from "./utils.js";
+import { CTRLKEY, JPEGTYPE, JPGTYPE, PNGTYPE, KEY, METAKEY } from "../constant/index.js";
+import {  throwNotInBrowserErrInfo } from "./utils.js";
 
 
-
-
-export const  editDocument = () => {
+export const editDocument = () => {
     throwNotInBrowserErrInfo()
     document.body.contentEditable = 'true'
 }
 
-const prettyLog = () => {
+export const prettyLog = () => {
     throwNotInBrowserErrInfo()
     const isEmpty = (value) => {
         return value == null || value === undefined || value === '';
@@ -31,3 +30,46 @@ const prettyLog = () => {
         info
     };
 };
+
+
+export function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v') {
+    return new Promise((resolve, reject) => {
+        const handler = async function (event) {
+            let operate = (event[CTRLKEY] || event[METAKEY])
+            if(key1 !== CTRLKEY){
+                operate = event[key1]
+            }
+            try {
+                if (operate && event[KEY] === key2) {
+                    event.preventDefault();
+
+                    const clipboardItems = await navigator.clipboard.read();
+                    for (const clipboardItem of clipboardItems) {
+                        const types = clipboardItem.types;
+                        if (types.includes(PNGTYPE) || types.includes(JPEGTYPE) || types.includes(JPGTYPE)) {
+                            const blob = await clipboardItem.getType(types[0]);
+
+                            const reader = new FileReader();
+                            reader.readAsDataURL(blob);
+                            reader.onloadend = () => {
+                                const result = reader.result;
+                                if (cb) {
+                                    cb(result);
+                                }
+
+                                resolve(result);
+                            };
+
+                            reader.onerror = () => {
+                                reject(new Error(`U aren't copy any image in ur clipboard,u idiot!!!`));
+                            };
+                        }
+                    }
+                }
+            } catch (error) {
+                reject('An error occurred,idiot:' + error);
+            }
+        };
+        domTarget.addEventListener('keydown', handler);
+    });
+}
