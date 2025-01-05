@@ -1,6 +1,6 @@
 {
   "name": "evil-tool",
-  "version": "0.0.3-dev",
+  "version": "0.0.3-dev.1",
   "description": "some common functions，and some inject function to js data type prototype",
   "type": "module",
   "main": "dist/cjs/bundle.cjs",
