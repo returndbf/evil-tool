@@ -1,5 +1,5 @@
 import { CTRLKEY, JPEGTYPE, JPGTYPE, PNGTYPE, KEY, METAKEY } from "../constant/index.js";
-import {  convertBlobToFile, throwNotInBrowserErrInfo } from "./utils.js";
+import { convertBlobToFile, throwNotInBrowserErrInfo } from "./utils.js";
 
 
 export const editDocument = () => {
@@ -32,11 +32,11 @@ export const prettyLog = () => {
 };
 
 
-export function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v') {
+export async function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v') {
     return new Promise((resolve, reject) => {
         const handler = async function (event) {
             let operate = (event[CTRLKEY] || event[METAKEY])
-            if(key1 !== CTRLKEY){
+            if (key1 !== CTRLKEY) {
                 operate = event[key1]
             }
             try {
@@ -48,25 +48,27 @@ export function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v') {
                         const types = clipboardItem.types;
                         if (types.includes(PNGTYPE) || types.includes(JPEGTYPE) || types.includes(JPGTYPE)) {
                             const blob = await clipboardItem.getType(types[0]);
+                            const res = await convertBlobToFile(blob)
+                            if (cb) cb(res)
+                            resolve(res)
+                            // const reader = new FileReader();
+                            // reader.readAsDataURL(blob);
+                            // reader.onloadend = () => {
+                            //     const content = reader.result;
+                            //     const result = {
+                            //         content,
+                            //         file:convertBlobToFile(blob,types[0])
+                            //     }
+                            //     if (cb) {
+                            //         cb(result);
+                            //     }
 
-                            const reader = new FileReader();
-                            reader.readAsDataURL(blob);
-                            reader.onloadend = () => {
-                                const content = reader.result;
-                                const result = {
-                                    content,
-                                    file:convertBlobToFile(blob,types[0])
-                                }
-                                if (cb) {
-                                    cb(result);
-                                }
+                            //     resolve(result);
+                            // };
 
-                                resolve(result);
-                            };
-
-                            reader.onerror = () => {
-                                reject(new Error(`U aren't copy any image in ur clipboard,u idiot!!!`));
-                            };
+                            // reader.onerror = () => {
+                            //     reject(new Error(`U aren't copy any image in ur clipboard,u idiot!!!`));
+                            // };
                         }
                     }
                 }
