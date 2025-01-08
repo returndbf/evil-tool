@@ -1,10 +1,11 @@
 {
   "name": "evil-tool",
-  "version": "0.0.3-dev.3",
+  "version": "0.0.3-dev.5",
   "description": "some common functions,and some inject function to js data type prototype",
   "type": "module",
   "main": "dist/cjs/bundle.cjs",
   "module": "dist/esm/bundle.esm.js",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/esm/bundle.esm.js",
