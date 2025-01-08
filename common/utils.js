@@ -45,11 +45,11 @@ export function convertBlobToFile(blob, fileName = generateRandomString()) {
                 content,
                 file,
             })
-            reader.onerror = () => {
-                reject(new Error(`An error occurred,idiot:${reader.error}`))
-            }
-            reader.readAsDataURL(blob)
         }
+        reader.onerror = () => {
+            reject(new Error(`An error occurred,idiot:${reader.error}`))
+        }
+        reader.readAsDataURL(blob)
     })
 }
 
