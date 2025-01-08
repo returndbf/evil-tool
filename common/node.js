@@ -1,10 +1,11 @@
-import { NODE } from "../constant";
-
+import { NODE } from "../constant/index.js";
+import { getEnv } from "./utils.js";
+import dayjs from "dayjs";
 export async function genWeekReport(authorName = "", commitTypes = [], startDate = dayjs().startOf("week").unix(), endDate = dayjs().endOf("week").unix()) {
     if (getEnv() === NODE) {
         const fs = await import('node:fs');
         const path = await import('node:path');
-        const dayjs = await import("dayjs");
+
         function shouldIncludeCommit(commit, authorName, startDate, endDate) {
             const commitTime = dayjs.unix(commit.timestamp);
 
@@ -75,3 +76,4 @@ export async function genWeekReport(authorName = "", commitTypes = [], startDate
     }
 
 }
+genWeekReport()
