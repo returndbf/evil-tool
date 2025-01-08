@@ -1,5 +1,5 @@
 import { CTRLKEY, JPEGTYPE, JPGTYPE, PNGTYPE, KEY, METAKEY } from "../constant/index.js";
-import {  throwNotInBrowserErrInfo } from "./utils.js";
+import {  convertBlobToFile, throwNotInBrowserErrInfo } from "./utils.js";
 
 
 export const editDocument = () => {
@@ -52,7 +52,11 @@ export function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v') {
                             const reader = new FileReader();
                             reader.readAsDataURL(blob);
                             reader.onloadend = () => {
-                                const result = reader.result;
+                                const content = reader.result;
+                                const result = {
+                                    content,
+                                    file:convertBlobToFile(blob,types[0])
+                                }
                                 if (cb) {
                                     cb(result);
                                 }

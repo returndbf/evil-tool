@@ -2,7 +2,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import babel from '@rollup/plugin-babel';
-import nodeExternals from 'rollup-plugin-node-externals';
 export default {
     input: 'index.js', // 输入文件路径
     output: [
@@ -20,7 +19,6 @@ export default {
         }
     ],
     plugins: [
-        nodeExternals(),
         resolve(), // 解析 node_modules 中的模块
         commonjs(), // 将 CommonJS 转换为 ES 模块
         babel({
