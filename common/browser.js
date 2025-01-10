@@ -81,7 +81,7 @@ export const prettyLog = () => {
 };
 
 export class CusLog {
-    static #basicLog = (type, content = '') => {
+    static basicLog = (type, content = '') => {
         const color = LOGTYPEMAP[type]
         const message  = `%c ${type} %c ${content} `
         const headStyle =   `background: ${color} ; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;border: 1px solid ${color}`
@@ -90,15 +90,15 @@ export class CusLog {
     }
 
     static info(content = '') {
-        CusLog.#basicLog('info', content)
+        CusLog.basicLog('info', content)
     }
     static warn(content = '') {
-        CusLog.#basicLog('warn', content)
+        CusLog.basicLog('warn', content)
     }
     static error(content = '') {
-        CusLog.#basicLog('error', content)
+        CusLog.basicLog('error', content)
     }
     static pink(content = '') {
-        CusLog.#basicLog('pink', content)
+        CusLog.basicLog('pink', content)
     }
 }
