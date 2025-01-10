@@ -56,36 +56,12 @@ export async function pasteImage(domTarget, cb = null, key1 = CTRLKEY, key2 = 'v
     });
 }
 
-export const prettyLog = () => {
-    throwNotInBrowserErrInfo()
-    const isEmpty = (value) => {
-        return value == null || value === undefined || value === '';
-    };
-    const prettyPrint = (title, text, color) => {
-        console.log(
-            `%c ${title} %c ${text} %c`,
-            `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
-            `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
-            'background:transparent'
-        );
-    };
-    // 基础信息打印
-    const info = (textOrTitle, content = '') => {
-        const title = isEmpty(content) ? 'Info' : textOrTitle;
-        const text = isEmpty(content) ? textOrTitle : content;
-        prettyPrint(title, text, '#909399');
-    };
-    return {
-        info
-    };
-};
-
 export class CusLog {
-    static basicLog = (type, content = '') => {
+    static basicLog = (type, content = '',messageColor=LOGCONTENTCOLOR) => {
         const color = LOGTYPEMAP[type]
         const message  = `%c ${type} %c ${content} `
         const headStyle =   `background: ${color} ; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;border: 1px solid ${color}`
-        const messageStyle = `padding: 1px;border: 1px solid  ${color} ; border-radius: 0 2px 2px 0; color:${LOGCONTENTCOLOR}`
+        const messageStyle = `padding: 1px;border: 1px solid  ${color} ; border-radius: 0 2px 2px 0; color:${messageColor}`
         return console.log(message, headStyle, messageStyle)
     }
 
@@ -99,6 +75,6 @@ export class CusLog {
         CusLog.basicLog('error', content)
     }
     static pink(content = '') {
-        CusLog.basicLog('pink', content)
+        CusLog.basicLog('pink', content,LOGTYPEMAP.pink)
     }
 }
