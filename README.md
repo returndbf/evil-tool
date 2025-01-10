@@ -5,20 +5,25 @@ some common functions，and some inject functions to js data type prototype
 
 ### esm
 ```js
-import {wait, importInject} from "evil-tool"
+import {wait,urlSearch,CusLog} from "evil-tool"
 ```
 
 ### cjs
 ```js
-const {wait, importInject} = require("evil-tool")
+const {wait,urlSearch,CusLog} = require("evil-tool")
 ```
  
 ### demo
 ```js
-importInject()
+
 async function test(){
-    console.log("100000.123456".toFixed(2)) // 100000.123
+    const searchObj = urlSearch("https://www.baidu.com/s?ie=UTF-8")
+    console.log(searchObj.getProperty("ie")) //UTF-8
     await wait(2000) //sync delay 2000ms
-    console.log("100000.123456".toLocaleString()) // 100,000.123
+    // CusLog class only support browser environment
+    CusLog.info('hello') // press f12,check browser Console
 }
 ```
+
+### doc address
+[evil-tool-doc](https://evil.wmqqxf.top/)
