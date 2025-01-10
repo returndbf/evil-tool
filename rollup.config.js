@@ -23,7 +23,8 @@ export default {
         commonjs(), // 将 CommonJS 转换为 ES 模块
         babel({
             babelHelpers: 'bundled',
-            exclude: 'node_modules/**' // 排除 node_modules 中的文件
+            exclude: 'node_modules/**', // 排除 node_modules 中的文件
+            presets: ['@babel/preset-env']
         }),
         terser() // 压缩代码
     ]
