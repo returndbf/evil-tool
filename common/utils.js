@@ -28,7 +28,7 @@ export function throwNotInBrowserErrInfo(operate = true, message = "") {
 export function getType(value) {
     return Object.prototype.toString.call(value).slice(8, -1);
 }
-function generateRandomString(length = 8) {
+export function generateRandomString(length = 8) {
     return Math.random().toString(36).substring(2, length);
 }
 
