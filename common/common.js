@@ -39,10 +39,39 @@ export function clearConsole (){
     }
 }
 
-
-export const excel2Csv = (arrayBuffer) => {
+export const getExcelWorksheet = (arrayBuffer)=>{
     const workBook = XLSX.read(arrayBuffer, {type: 'array'});
     const firstSheetName = workBook.SheetNames[0];
-    const worksheet = workBook.Sheets[firstSheetName];
+    return  workBook.Sheets[firstSheetName];
+}
+export const excel2Csv = (arrayBuffer) => {
+    const worksheet = getExcelWorksheet(arrayBuffer);
     return XLSX.utils.sheet_to_csv(worksheet,{header:1,FS:",",RS:"\n"});
+}
+
+export const excel2Json = (arrayBuffer,omitKeys=[])=>{
+    const worksheet = getExcelWorksheet(arrayBuffer);
+    const jsonData=  XLSX.utils.sheet_to_json(worksheet);
+    if(omitKeys && omitKeys.length){
+        omitKeys.forEach(key=>{
+            jsonData.forEach(item=>{
+                delete item[key]
+            })
+        })
+    }
+    return jsonData
+}
+
+export const excel2Txt = (arrayBuffer,splitSymbol = ',')=>{
+    const jsonData = excel2Json(arrayBuffer);
+    const header = Object.keys(jsonData[0])
+    let txtContent = header.join(splitSymbol) + '\n'
+    jsonData.forEach(row=>{
+        header.forEach(key=>{
+            txtContent += row[key] + splitSymbol
+        })
+        txtContent = txtContent.substring(0,txtContent.length-1) + '\n'
+    })
+    return new Blob([txtContent], {type: 'text/plain;charset=utf-8'});
+    
 }
