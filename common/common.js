@@ -49,7 +49,8 @@ export const getExcelWorksheet = (arrayBuffer)=>{
 }
 export const excel2Csv = (arrayBuffer) => {
     const worksheet = getExcelWorksheet(arrayBuffer);
-    return XLSX.utils.sheet_to_csv(worksheet,{header:1,FS:",",RS:"\n"});
+    const csv =  XLSX.utils.sheet_to_csv(worksheet,{header:1,FS:",",RS:"\n"});
+    return new Blob([new Uint8Array(0xEF,0xBB,0XBF),csv], {type: 'text/csv;charset=utf-8'});
 }
 
 export const excel2Json = (arrayBuffer,omitKeys=[])=>{
