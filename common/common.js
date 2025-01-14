@@ -1,5 +1,8 @@
 import {throwNotInBrowserErrInfo} from "./utils.js";
 import * as XLSX from 'xlsx'
+import * as DOCX from 'docx'
+
+const {TableCell,TableRow,Packer,Paragraph,Document,Table} = DOCX
 
 export async function wait(delay=1000,resolveInfo){
     return await new Promise(res=>{
@@ -62,8 +65,8 @@ export const excel2Json = (arrayBuffer,omitKeys=[])=>{
     return jsonData
 }
 
-export const excel2Txt = (arrayBuffer,splitSymbol = ',')=>{
-    const jsonData = excel2Json(arrayBuffer);
+export const excel2Txt = (arrayBuffer,omitKeys=[],splitSymbol = ',')=>{
+    const jsonData = excel2Json(arrayBuffer,omitKeys);
     const header = Object.keys(jsonData[0])
     let txtContent = header.join(splitSymbol) + '\n'
     jsonData.forEach(row=>{
@@ -74,4 +77,43 @@ export const excel2Txt = (arrayBuffer,splitSymbol = ',')=>{
     })
     return new Blob([txtContent], {type: 'text/plain;charset=utf-8'});
     
+}
+
+export const excel2Word = async(arrayBuffer,omitKeys)=>{
+    const jsonData = excel2Json(arrayBuffer,omitKeys);
+    const headerKeys = Object.keys(jsonData[0])
+    const genHeader = ()=> new TableRow({
+        children: headerKeys.map(i=>{
+            return new TableCell({
+                children:[new Paragraph(i) ]
+            })
+        })
+    })
+    const genBody = ()=>{
+        return jsonData.map(row=>{
+            return new TableRow({
+                children: headerKeys.map(key=>{
+                    return new TableCell({
+                        children:[new Paragraph(row[key].toString()) ]
+                    })
+                })
+            })
+        })
+    }
+    const docx = new Document({
+        sections:[
+            {
+                children:[
+                    new Table({
+                        rows:[
+                            genHeader(),
+                            ...genBody()
+                        ]
+                    })
+                ]
+                      
+            }
+        ]
+    })
+    return await Packer.toBlob(docx)
 }
