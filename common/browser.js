@@ -79,4 +79,16 @@ export class CusLog {
     }
 }
 
+export const downloadBlob = (blob, fileName)=>{
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    a.setAttribute('href', url);
+    a.setAttribute('download', fileName);
+    a.style.visibility = 'hidden'
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    CusLog.info(`download ${fileName} success`)
+}
  
