@@ -1,5 +1,5 @@
 import {throwNotInBrowserErrInfo} from "./utils.js";
-
+import * as XLSX from 'xlsx'
 
 export async function wait(delay=1000,resolveInfo){
     return await new Promise(res=>{
@@ -40,4 +40,9 @@ export function clearConsole (){
 }
 
 
-
+export const excel2Csv = (arrayBuffer) => {
+    const workBook = XLSX.read(arrayBuffer, {type: 'array'});
+    const firstSheetName = workBook.SheetNames[0];
+    const worksheet = workBook.Sheets[firstSheetName];
+    return XLSX.utils.sheet_to_csv(worksheet,{header:1,FS:",",RS:"\n"});
+}

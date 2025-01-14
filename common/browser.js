@@ -78,3 +78,5 @@ export class CusLog {
         CusLog.basicLog('pink', content,LOGTYPEMAP.pink)
     }
 }
+
+ 
